@@ -50,9 +50,10 @@ const RECMarket: React.FC = () => {
     }
   }, [toast]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchCertificates();
-  }, [fetchCertificates]);
+  }, []);
 
   const handleTransfer = async () => {
     try {

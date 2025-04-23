@@ -71,9 +71,10 @@ const CarbonImpact: React.FC = () => {
     }
   }, [timeframe]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchCarbonImpact();
-  }, [fetchCarbonImpact]);
+  }, []);
 
   if (!impactData) return null;
 
