@@ -11,6 +11,7 @@ import { AppDataSource } from './data-source';
 import { marketRouter } from './routes/market';
 import { recRouter } from './routes/rec';
 import { carbonRouter } from './routes/carbon';
+import { orderRouter } from './routes/orders';
 import { setupWebSocket } from './websocket';
 import { logger } from './utils/logger';
 
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use('/api/market', marketRouter);
 app.use('/api/rec', recRouter);
 app.use('/api/carbon', carbonRouter);
+app.use('/api/orders', orderRouter);
 
 // WebSocket setup
 setupWebSocket(io);
@@ -42,6 +44,7 @@ const PORT = process.env.PORT || 3001;
 // Initialize database connection
 AppDataSource.initialize()
   .then(() => {
+    logger.info('Database Configuration:', AppDataSource.options);
     httpServer.listen(PORT, () => {
       logger.info(`Server running on port ${PORT}`);
     });

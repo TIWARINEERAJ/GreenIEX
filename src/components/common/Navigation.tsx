@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
   Box,
   Flex,
@@ -8,10 +8,25 @@ import {
   IconButton,
   useColorModeValue,
   Text,
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Avatar,
 } from '@chakra-ui/react';
 import { SunIcon, WindIcon, DropIcon } from './Icons';
+import { useAuth } from '../../features/auth/AuthContext';
 
 const Navigation: React.FC = () => {
+  const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <Box bg={useColorModeValue('white', 'gray.900')} px={4} shadow="sm">
       <Flex h={16} alignItems="center" justifyContent="space-between">
@@ -55,6 +70,34 @@ const Navigation: React.FC = () => {
             variant="ghost"
             colorScheme="cyan"
           />
+          
+          {isAuthenticated ? (
+            <Menu>
+              <MenuButton>
+                <HStack>
+                  <Avatar size="sm" name={user?.username} bg="green.500" />
+                  <Text display={{ base: 'none', md: 'block' }}>
+                    {user?.username}
+                  </Text>
+                </HStack>
+              </MenuButton>
+              <MenuList>
+                <MenuItem>Profile</MenuItem>
+                <MenuItem>Settings</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </MenuList>
+            </Menu>
+          ) : (
+            <Button
+              as={RouterLink}
+              to="/login"
+              colorScheme="green"
+              variant="outline"
+              size="sm"
+            >
+              Login
+            </Button>
+          )}
         </HStack>
       </Flex>
     </Box>
