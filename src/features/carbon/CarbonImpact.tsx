@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Box,
   Grid,
@@ -41,11 +41,7 @@ const CarbonImpact: React.FC = () => {
   const [impactData, setImpactData] = useState<CarbonImpactData | null>(null);
   const [timeframe, setTimeframe] = useState('month');
 
-  useEffect(() => {
-    fetchCarbonImpact();
-  }, [timeframe]);
-
-  const fetchCarbonImpact = async () => {
+  const fetchCarbonImpact = useCallback(async () => {
     try {
       const endDate = new Date();
       const startDate = new Date();
@@ -73,7 +69,11 @@ const CarbonImpact: React.FC = () => {
     } catch (error) {
       console.error('Error fetching carbon impact:', error);
     }
-  };
+  }, [timeframe]);
+
+  useEffect(() => {
+    fetchCarbonImpact();
+  }, [fetchCarbonImpact]);
 
   if (!impactData) return null;
 

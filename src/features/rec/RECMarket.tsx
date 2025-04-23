@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Box,
   Grid,
@@ -34,11 +34,7 @@ const RECMarket: React.FC = () => {
     newOwnerId: '',
   });
 
-  useEffect(() => {
-    fetchCertificates();
-  }, []);
-
-  const fetchCertificates = async () => {
+  const fetchCertificates = useCallback(async () => {
     try {
       const response = await fetch('http://localhost:3001/api/rec/available');
       if (response.ok) {
@@ -52,7 +48,11 @@ const RECMarket: React.FC = () => {
         duration: 3000,
       });
     }
-  };
+  }, [toast]);
+
+  useEffect(() => {
+    fetchCertificates();
+  }, [fetchCertificates]);
 
   const handleTransfer = async () => {
     try {

@@ -15,10 +15,8 @@ import {
   Tbody,
   Tr,
   Th,
-  Td,
-  Badge,
 } from '@chakra-ui/react';
-import { Order } from '../../types/market';
+
 
 const TradingPortal: React.FC = () => {
   const toast = useToast();
