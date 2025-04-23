@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Grid,
@@ -41,7 +41,7 @@ const CarbonImpact: React.FC = () => {
   const [impactData, setImpactData] = useState<CarbonImpactData | null>(null);
   const [timeframe, setTimeframe] = useState('month');
 
-  const fetchCarbonImpact = useCallback(async () => {
+  const fetchCarbonImpact = async () => {
     try {
       const endDate = new Date();
       const startDate = new Date();
@@ -69,12 +69,13 @@ const CarbonImpact: React.FC = () => {
     } catch (error) {
       console.error('Error fetching carbon impact:', error);
     }
-  }, [timeframe]);
+  };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     fetchCarbonImpact();
-  }, []);
+  }, [timeframe]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   if (!impactData) return null;
 
